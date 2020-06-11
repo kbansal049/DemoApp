@@ -1,5 +1,6 @@
 ({
     test: function (component,event,helper) {
+        //hello
         var action = component.get("c.initMethod");
         action.setCallback(this, function (response) {
             var state = response.getState();
