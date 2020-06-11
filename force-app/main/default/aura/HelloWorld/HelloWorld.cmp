@@ -1,0 +1,175 @@
+<aura:component controller="DisplayRecordTypeRecords" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.getListofSObjects}"/>
+    <aura:attribute name="RecordTypeId" type="String" />
+    
+    <aura:attribute name="message" type="Boolean"/>
+    <aura:attribute name="message1" type="String" />
+    <aura:attribute name="message2" type="String" />
+    <aura:attribute name="returnedid" type="String" />
+    <aura:attribute name="returnedlabel" type="String" />
+    
+    <aura:attribute name="counter" default="0" type="integer"/>
+    <aura:attribute name="reloadForm" type="boolean" default="false" />
+    <aura:attribute name="sObjectName" type="String" default="case" />
+    <aura:attribute name="selectedobject1" type="String" default="Case"/>
+    <aura:attribute name="isAllSelected" type="Boolean" default="false"/>
+    <aura:attribute name="selectedRecordType" type="String"/>
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    
+    <aura:attribute name="listOfRecordType" type="List"/>
+    <aura:attribute name="showRecordTypeOptions" type="Boolean" Default="false"/>
+    <aura:attribute name="saveprefrence" type="Boolean" Default="false"/>
+    <aura:attribute name="showForm" type="Boolean" Default="false"/>
+    <aura:attribute name="clickedButton" type="String"/>
+    <aura:attribute name="listofsobject" type="List"/>
+    <aura:attribute name="RecordNameList" type="List"/>
+    <aura:attribute name="layoutFields" type="String[]" />
+    <aura:attribute name="showButtons" type="boolean" default="true" />
+    <aura:attribute name="showRecordList" type="boolean" default="false" />
+    
+    <aura:attribute name="showButtons1" type="boolean" default="false" />
+    
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    <lightning:utilityBarAPI aura:id="utilitybar" />
+    <aura:renderIf isTrue="{!v.reloadForm}">
+    
+    <div class="recordType">
+        <Lightning:select aura:id="selectid"  class="optionlabel" label="Select Object Type" value="{!v.selectedobject1}" onchange="{!c.handleSelectedObject}">
+            <aura:iteration items="{!v.listofsobject}" var="sobject">
+                <option text="{!sobject}" class="optionvalue" value="{!sobject}" selected="{!sobject==v.selectedobject1}"/>
+            </aura:iteration>
+        </Lightning:select>
+        <aura:if isTrue="{!v.showRecordTypeOptions}">
+            <Lightning:select name="state_opt"  class="optionlabel" aura:id="selectid" label="Select Record Type" value="{!v.selectedRecordType}" onchange="{!c.handleSelectedRecordType}">
+                <aura:iteration items="{!v.listOfRecordType}" var="recordtype">
+                    <option text="{!recordtype.Name}" class="optionvalue" value="{!recordtype.Name}"/>
+                </aura:iteration>
+            </Lightning:select>
+        </aura:if>
+    </div>
+   
+    <aura:if isTrue="{!v.showRecordList}"> 
+        <li><a  href="javascript:void(0)" onmouseover="{!c.openPop}" >Recent Records</a></li>
+        <section aura:id="pop" onmouseout="{!c.closePop}"  class="slds-popover slds-nubbin_top toggle" role="dialog" aria-labelledby="dialog-heading-id-1" aria-describedby="dialog-body-id-6">
+            <div class="slds-popover__body" id="dialog-body-id-6" >
+                <table>
+                    <tbody>
+                        <aura:iteration items="{!v.RecordNameList}" var="Record">
+                            <tr>
+                                <td>
+                                    <div class="slds-truncate" title="" >
+                                        <a target="_blank" href="{!'/lightning/r/'+Record.recordObject+'/'+Record.dataId+'/view'}">{!Record.Name}</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    ({!Record.recordObject})
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+                
+            </div>
+            
+            <footer class="slds-popover__footer">
+            </footer>
+        </section>
+    </aura:if>
+    
+         <div class="slds-grid slds-gutters">
+  <div class="slds-col slds-size_2-of-5">
+             </div>
+     <div class="slds-col slds-size_3-of-5">   
+    <aura:if isTrue="{!v.showButtons}">
+        <div class="slds-list_horizontal" >
+            <lightning:input class="btn4" type="checkbox"  label="Save Preference" checked="{!v.isAllSelected}" onchange="{!c.handleOnSavePrefrence}">  </lightning:input>
+            <lightning:helptext
+                                class="help" 
+                                content="It allows you to Save your current Prefrences object 
+                                         and record type so that no need of choosing it 
+                                         again at record creation time. ">
+            </lightning:helptext>
+        </div>
+    </aura:if>
+        </div>
+    </div>
+    
+    
+        <div class="recordform">
+            <aura:if isTrue="{!v.showForm}">
+                <lightning:recordForm 
+                                      aura:id= "recordForm"
+                                      objectApiName="{!v.sObjectName}"
+                                      recordTypeId="{!v.RecordTypeId}"
+                                      layoutType="Compact"
+                                      columns="1"
+                                      mode="edit"
+                                      onsuccess="{!c.handleOnSuccess}"
+                                      onerror="{!c.handleonError}"
+                                      >
+                    
+                </lightning:recordForm> 
+            </aura:if>
+            
+            
+            
+            
+            
+            
+            <div class="btnclass slds-p-top_medium">
+                <aura:if isTrue="{!v.showButtons}">
+                    <lightning:button class="btn1" variant="brand" label="Save" onclick="{!c.handleOnSave}"/>
+                    <lightning:button class="btn2" variant="brand-outline" label="Save &#38; New" onclick="{!c.handleOnSaveandNew}"/>
+                    
+                    <lightning:button class="btn3" variant="brand-outline" label="Cancel" onclick="{!c.handleOnCancel}"/>
+                    
+                </aura:if>
+            </div> 
+            <aura:if isTrue="{!v.showButtons1}"> 
+                <lightning:button class="btn1" variant="brand-outline" label="Create New" onclick="{!c.handleOnCreateNew }"/>
+            </aura:if>
+        </div>
+    </aura:renderIf>
+    <aura:if isTrue="{!v.isOpen}">
+        
+        <!--###### MODAL BOX Start######--> 
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- ###### MODAL BOX HEADER Start ######-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModel }"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>
+                    <h6 id="modal-heading-01" class="slds-text-heading_small slds-hyphenate">Alert!!</h6>
+                </header>
+                <!--###### MODAL BOX BODY Part Start######-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <aura:if isTrue="{!v.message}">
+                        Prefrence stored for <b>{!v.message1}</b> and <b>{!v.message2}</b> will be replaced
+                        <aura:set attribute="else">
+                            Prefrence stored for <b>{!v.message1}</b> will be replaced
+                        </aura:set>
+                    </aura:if>
+                </div>
+                <!--###### MODAL BOX FOOTER Part Start ######-->
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral" 
+                                      label="Cancel"
+                                      title="Cancel"
+                                      onclick="{! c.closeModel }"/>
+                    <lightning:button variant="brand" 
+                                      label="OK"
+                                      title="OK"
+                                      onclick="{! c.savePrefrence }"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        <!--###### MODAL BOX Part END Here ######-->
+        
+    </aura:if>
+    
+    
+</aura:component>
