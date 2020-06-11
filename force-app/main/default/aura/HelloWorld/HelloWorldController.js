@@ -1,6 +1,6 @@
 ({
     getListofSObjects: function (component, event, helper) {
-        
+        //NIHJKML
         helper.test(component, event,helper);
        
     },
