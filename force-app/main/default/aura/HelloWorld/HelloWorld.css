@@ -1,2 +1,65 @@
-.THIS {
+.THIS.recordType {
+    padding:10px;
+}
+.THIS.recordform{
+    padding:10px;
+   padding-bottom:0px;
+}
+.THIS .hello{
+    margin-left:90px;
+}
+.THIS .changeMe {
+    background-color:yellow;
+    width:200px;
+}
+
+.THIS .btn1{
+    margin-left:5px;
+}
+.THIS .btn2{
+    margin-left:10px;
+}
+.THIS .btn3{
+    margin-left:10px;
+}
+.THIS .slds-checkbox{
+    margin-left: 10px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.THIS .slds-align_absolute-center.slds-p-around_medium{
+    padding:0px;
+    Display:none;
+}
+
+.THIS.toggle {
+   display: none;
+ }
+
+.THIS .btnclass{
+display: inline;    
+}
+
+.THIS .slds-notify.slds-notify_toast.slds-theme_error{
+    display:none;
+}
+
+.THIS .help div{
+    margin-top:8px;
+}
+
+.THIS .optionlabel{
+ font-weight: bold;   
+}
+
+.THIS .optionvalue{
+     font-weight: normal;   
+}
+.THIS  .slds-select_container .slds-select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    padding-left: var(--lwc-spacingXSmall,0.5rem);
+    padding-right: var(--lwc-spacingLarge,1.5rem);
+    font-weight: normal;
 }

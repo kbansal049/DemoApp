@@ -1,6 +1,6 @@
 ({
     getListofSObjects: function (component, event, helper) {
-        //NIHJKML
+        
         helper.test(component, event,helper);
        
     },
@@ -136,6 +136,8 @@
         $A.enqueueAction(action);
     },
     handleOnCreateNew: function (component, event, helper) {
+       component.set("v.showForm", false);
+        component.set("v.showButtons", false); 
         component.set("v.reloadForm", false);
         component.set("v.showButtons1", false); 
         component.set("v.reloadForm", true);
@@ -215,15 +217,18 @@
         component.set("v.reloadForm", true);
     },
     handleonError: function(component, event,handler) {
-        var error = event.getParam('output')['fieldErrors']['Name'][0]['message'];
-        console.log("response1", error);
-        var resultsToast = $A.get("e.force:showToast");
-        resultsToast.setParams({
-            "type":"error",
-            "title":"Error!",
-            "message": error
-        });
-        resultsToast.fire();
+        if(event.getParam('output') != undefined && event.getParam('output')['fieldErrors']['Name'] != undefined){
+            var error = event.getParam('output')['fieldErrors']['Name'][0]['message'];
+            console.log("response1", error);
+            var resultsToast = $A.get("e.force:showToast");
+            resultsToast.setParams({
+                "type":"error",
+                "title":"Error!",
+                "message": error
+            });
+            resultsToast.fire();
+        }
+        
     },
     closeModel: function (component, event, helper) {
 component.set("v.isOpen", false);
