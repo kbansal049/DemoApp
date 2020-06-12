@@ -4,7 +4,7 @@ public class DisplayRecordTypeRecords {
         List < String > options = new List < String > ();
         for (Schema.SObjectType objTyp: Schema.getGlobalDescribe().values()) {
             // Exclude all the unwanted Sobjects e.g. CustomSettings, History, Share, Feed, ApexClass, Pages etc..
-            if ((objTyp.getDescribe().isCreateable() == True) && (objTyp.getDescribe().isCustomSetting() == False) 
+            if ((objTyp.getDescribe().isCreateable()== True) && (objTyp.getDescribe().isCustomSetting() == False) 
                 && (objTyp.getDescribe().isQueryable() == True) && (objTyp.getDescribe().isMruEnabled() == True) 
                 && objTyp.getDescribe().isAccessible() == true) {
                     // options.add(new SelectOption(item1.getDescribe().getName(), item1.getDescribe().getLabel()));
@@ -39,7 +39,8 @@ public class DisplayRecordTypeRecords {
                                                  ORDER BY CreatedDate Asc];
         System.debug('recordatalist'+recordatalist);
         List < Record_Data__c > list1 = new List < Record_Data__c > ();
-        if (!recordatalist.isEmpty() && (value == True || value == False) && Schema.getGlobalDescribe().get('Record_Data__c').getDescribe().isAccessible() == true ) {
+        if(Schema.getGlobalDescribe().get('Record_Data__c').getDescribe().isCreateable() == true && Schema.getGlobalDescribe().get('Record_Data__c').getDescribe().isUpdateable() == true){
+        if (!recordatalist.isEmpty() && (value == True || value == False) ) {
             for (Record_Data__c robj: recordatalist) {
                 System.debug('recordlist'+robj);
                 if (robj.Object_Name__c == ObjectName && String.isBlank(RecordTypeId)) {
@@ -87,12 +88,15 @@ public class DisplayRecordTypeRecords {
             recordlist.add(obj);
             System.debug('recordlist'+recordlist);
         }
+    }
         if (!recordlist.isEmpty()) {
             if(!newmap.isEmpty()){
                 recordlist.add(newmap.values());
             }
             System.debug('recordlist' + recordlist);
-            upsert  recordlist;
+            if(Schema.getGlobalDescribe().get('Record_Data__c').getDescribe().isCreateable() == true && Schema.getGlobalDescribe().get('Record_Data__c').getDescribe().isUpdateable() == true){
+                upsert  recordlist;
+            }
         }
         return recordlist;
     }
