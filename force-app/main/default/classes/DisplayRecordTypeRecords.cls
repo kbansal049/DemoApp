@@ -86,18 +86,13 @@ public class DisplayRecordTypeRecords {
             recordlist.add(obj);
             System.debug('recordlist'+recordlist);
         }
-        if (!recordlist.isEmpty() && (value == true || value == false) && value1 == true) {
-            System.debug('newmap.values()' + newmap.values());
-            update recordlist;
-        }
-        else if (!recordlist.isEmpty() && value == true && value1 != true) {
+        if (!recordlist.isEmpty()) {
             if(!newmap.isEmpty()){
                 recordlist.add(newmap.values());
             }
             System.debug('recordlist' + recordlist);
-            upsert  recordlist;        
-        } 
-        
+            upsert  recordlist;
+        }
         return recordlist;
     }
     catch(exception e)
