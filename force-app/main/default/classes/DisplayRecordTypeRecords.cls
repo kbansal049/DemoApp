@@ -94,7 +94,7 @@ public class DisplayRecordTypeRecords {
                 recordlist.add(newmap.values());
             }
             System.debug('recordlist' + recordlist);
-            if(Schema.sObjectType.Record_Data__c.isAccessible() && Schema.getGlobalDescribe().get('Record_Data__c').getDescribe().isUpdateable() == true){
+            if(Schema.sObjectType.Record_Data__c.isAccessible() && Schema.sObjectType.Record_Data__c.isCreateable() && Schema.sObjectType.Record_Data__c.isUpdateable()){
                 upsert  recordlist;
             }
         }
