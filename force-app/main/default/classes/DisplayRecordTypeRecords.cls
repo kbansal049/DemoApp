@@ -20,6 +20,8 @@ public class DisplayRecordTypeRecords {
     @AuraEnabled
     public static List < Record_Data__c > saveCustomObjectData(String ObjectName, String RecordTypeId, Boolean value) {
         try{
+          
+
         Boolean value1 = false;
         System.debug('ObjectName'+ObjectName);
         System.debug('RecordTypeId'+RecordTypeId);
@@ -31,14 +33,14 @@ public class DisplayRecordTypeRecords {
         }
         Map < String, Record_Data__c> newmap =  new Map < String, Record_Data__c> ();
         List<Record_Data__c> recordlist = new List<Record_Data__c>();
-        // Map < String, Record_Data__c > newmap1 = new Map < String, Record_Data__c > ();
         List < Record_Data__c > recordatalist = [select id, Object_Name__c, Record_Type_Id__c, Active__c, Record_Type_Label__c 
                                                  from Record_Data__c 
                                                  where UserId__c =: UserInfo.getUserId() 
                                                  ORDER BY CreatedDate Asc];
         System.debug('recordatalist'+recordatalist);
+        Boolean isAccessibleAccount = Schema.getGlobalDescribe().get(Record_Data__c).getDescribe().isAccessible();
         List < Record_Data__c > list1 = new List < Record_Data__c > ();
-        if (!recordatalist.isEmpty() && (value == True || value == False)) {
+        if (!recordatalist.isEmpty() && (value == True || value == False) && isAccessibleAccount== true ) {
             for (Record_Data__c robj: recordatalist) {
                 System.debug('recordlist'+robj);
                 if (robj.Object_Name__c == ObjectName && String.isBlank(RecordTypeId)) {
