@@ -100,7 +100,7 @@ public class DisplayRecordTypeRecords {
             if (!Schema.sObjectType.Record_Data__c.fields.Record_Type_Id__c.isUpdateable() || !Schema.sObjectType.Record_Data__c.fields.Record_Type_Label__c.isUpdateable() || !Schema.sObjectType.Record_Data__c.fields.Object_Name__c.isUpdateable() || !Schema.sObjectType.Record_Data__c.fields.Active__c.isUpdateable() || !Schema.sObjectType.Record_Data__c.fields.UserId__c.isUpdateable()){
                return null;
             }else{
-                if(Record_Data__c.sObjectType.getDescribe().isAccessible() && Schema.sObjectType.Record_Data__c.isAccessible() && Schema.sObjectType.Record_Data__c.isCreateable() && Schema.sObjectType.Record_Data__c.isUpdateable()){
+                if( Schema.sObjectType.Record_Data__c.isAccessible() && Schema.sObjectType.Record_Data__c.isCreateable() && Schema.sObjectType.Record_Data__c.isUpdateable()){
                     upsert  recordlist;
                 }
             }
