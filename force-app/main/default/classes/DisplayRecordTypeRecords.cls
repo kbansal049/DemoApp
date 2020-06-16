@@ -9,10 +9,38 @@ public class DisplayRecordTypeRecords {
                 && objTyp.getDescribe().isAccessible() == true) {
                     // options.add(new SelectOption(item1.getDescribe().getName(), item1.getDescribe().getLabel()));
                     String name = objTyp.getDescribe().getName();
-                    if(!name.containsignorecase('Form') &&!name.containsignorecase('ChannelProgram') && !name.containsignorecase('tag') && !name.containsignorecase('share') && !name.containsignorecase('feed') && !name.containsignorecase('Task') && !name.containsignorecase('Event')) {
-                        options.add(name);
-                        options.sort();
+                    if(objTyp.getDescribe().isCustom() == False){
+                        if((!name.containsignorecase('Form') &&!name.containsignorecase('ChannelProgram') 
+                            && !name.containsignorecase('tag') && !name.containsignorecase('share') 
+                            && !name.containsignorecase('feed') && !name.containsignorecase('Task') 
+                            && !name.containsignorecase('Event') && !name.containsignorecase('Brand') 
+                            && !name.containsignorecase('ScratchOrg') && !name.containsignorecase('Payment') 
+                            && !name.containsignorecase('WorkTypeGroup') && !name.containsignorecase('CommSubscription')
+                            &&!name.containsignorecase('ContactPoint') &&!name.containsignorecase('Company') 
+                            &&!name.containsignorecase('Email') &&  !name.containsignorecase('Messaging')
+                            &&!name.containsignorecase('Fund') && !name.containsignorecase('Budget')
+                            &&!name.containsignorecase('Permission')   &&!name.containsignorecase('Party')
+                            &&!name.containsignorecase('Query')   &&!name.containsignorecase('Collaboration')
+                            &&!name.containsignorecase('Consumption')  &&!name.containsignorecase('DataUse')
+                            &&!name.containsignorecase('DigitalWallet') &&!name.containsignorecase('Duplicate')
+                            &&!name.containsignorecase('Engagement') &&!name.containsignorecase('Idea')
+                            &&!name.containsignorecase('Macro') &&!name.containsignorecase('Text')
+                            &&!name.containsignorecase('Idea') &&!name.containsignorecase('Recommendation')
+                            &&!name.containsignorecase('Solution')  &&!name.containsignorecase('Streaming')
+                            &&!name.containsignorecase('Topic') &&!name.containsignorecase('Enhanced')
+                            &&!name.equals('Document')) ){ 
+                                System.debug('hello');
+                                options.add(name);
+                               
+                            } 
+                    } 
+                    else{ 
+                        if(name != 'Knowledge__kav'){
+                        System.debug('hello2'+name);
+                            options.add(name);}
+                       
                     }
+                     options.sort();  
                 }
         } 
         return options;
