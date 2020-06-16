@@ -122,8 +122,15 @@ public class DisplayRecordTypeRecords {
                 recordlist.add(newmap.values());
             }
             System.debug('recordlist' + recordlist);
-            if(Schema.getGlobalDescribe().get('Record_Data__c').getDescribe().isCreateable() == true && Schema.getGlobalDescribe().get('Record_Data__c').getDescribe().isUpdateable() == true){
-                upsert  recordlist;
+            if (!Schema.sObjectType.Record_Data__c.isUpdateable()){
+              return null;
+            }
+            if (!Schema.sObjectType.Record_Data__c.fields.Record_Type_Id__c.isUpdateable() || !Schema.sObjectType.Record_Data__c.fields.Record_Type_Label__c.isUpdateable() || !Schema.sObjectType.Record_Data__c.fields.Object_Name__c.isUpdateable() || !Schema.sObjectType.Record_Data__c.fields.Active__c.isUpdateable() || !Schema.sObjectType.Record_Data__c.fields.UserId__c.isUpdateable()){
+               return null;
+            }else{
+                if( Schema.sObjectType.Record_Data__c.isAccessible() && Schema.sObjectType.Record_Data__c.isCreateable() && Schema.sObjectType.Record_Data__c.isUpdateable()){
+                    upsert  recordlist;
+                }
             }
         }
         return recordlist;
