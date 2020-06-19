@@ -70,10 +70,10 @@ public with sharing class DisplayRecordTypeRecords {
             recordatalist = [select id, Object_Name__c, Record_Type_Id__c, Active__c, Record_Type_Label__c 
                                                      from Record_Data__c 
                                                      where UserId__c =: UserInfo.getUserId() 
-                                                     ORDER BY CreatedDate Asc];}
+                                                     ORDER BY CreatedDate Asc];
+                                                    }
             System.debug('recordatalist'+recordatalist);
             List < Record_Data__c > list1 = new List < Record_Data__c > ();
-            if(Schema.getGlobalDescribe().get('Record_Data__c').getDescribe().isCreateable() == true && Schema.getGlobalDescribe().get('Record_Data__c').getDescribe().isUpdateable() == true){
                 if (!recordatalist.isEmpty() && (value == True || value == False) ) {
                     for (Record_Data__c robj: recordatalist) {
                         System.debug('recordlist'+robj);
@@ -106,10 +106,10 @@ public with sharing class DisplayRecordTypeRecords {
                                 newmap.put(ObjectName,obj);  
                                 System.debug('if part');
                             }    
-                        }
                         
                     }
-                } else {
+                } 
+            }else {
                     System.debug('case4');
                     Record_Data__c obj = new Record_Data__c();
                     obj.Object_Name__c = ObjectName;
@@ -122,7 +122,6 @@ public with sharing class DisplayRecordTypeRecords {
                     recordlist.add(obj);
                     System.debug('recordlist'+recordlist);
                 }
-            }
             if (!recordlist.isEmpty()) {
                 if(!newmap.isEmpty()){
                     recordlist.add(newmap.values());
