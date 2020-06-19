@@ -30,6 +30,7 @@ public class DisplayRecordTypeRecords {
                             &&!name.containsignorecase('Topic') &&!name.containsignorecase('Enhanced')
                             &&!name.equals('Document')) ){ 
                                 System.debug('hello');
+                                
                                 options.add(name);
                                
                             } 
@@ -46,7 +47,7 @@ public class DisplayRecordTypeRecords {
         return options;
     }
     @AuraEnabled
-    public static List < Record_Data__c > saveCustomObjectData(String ObjectName, String RecordTypeId, Boolean value) {
+    public static List < Record_Data__c > saveCustomObjectData(String objectName, String recordTypeId, Boolean value) {
         try{
           
 
@@ -176,7 +177,7 @@ public class DisplayRecordTypeRecords {
     }
     
     
-    public class wrapperClass{
+    public class WrapperClass{
         @AuraEnabled
         public List<String> listofsobject{get;set;}
         @AuraEnabled
@@ -218,11 +219,11 @@ public class DisplayRecordTypeRecords {
    
     
     //init wrapper 
-    public class recordWrapper{
+    public class RecordWrapper{
         @AuraEnabled
         public String dataId {get;set;}
         @AuraEnabled
-        public String Name {get;set;}
+        public String name {get;set;}
         @AuraEnabled
         public String recordObject {get;set;}
         
@@ -237,7 +238,7 @@ public class DisplayRecordTypeRecords {
         recordWrapper obj = new recordWrapper();
         if(objectname.contains('Case'))
         {  string qr =  ('select id,CaseNumber from '+objectname+' where id= \'' + recordId + '\'') ; 
-         Case caseNumber1=Database.query(qr);
+         Case caseNumber1 = Database.query(qr);
          obj.dataId = (Database.query(qr)).Id;
          obj.Name = caseNumber1.CaseNumber;
          obj.recordObject = objectname;
