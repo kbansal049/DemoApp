@@ -253,20 +253,20 @@ public with sharing class DisplayRecordTypeRecords {
     
     @AuraEnabled
     public static recordWrapper getRecordName(String recordId,String objectname) {
-           List<case>  qr = new    List<case>();
-        recordWrapper obj = new recordWrapper();
+          recordWrapper obj = new recordWrapper();
         if(objectname.contains('Case'))
-        {  if(Case.SObjectType.getDescribe().isAccessible() &&Schema.SObjectType.Case.fields.Id.isAccessible() && Schema.SObjectType.Case.fields.CaseNumber.isAccessible()){
-                qr =  [select id,CaseNumber from case  where id=:recordId]; 
+        {  List<case>  qr = new    List<case>();
+            if(case.SObjectType.getDescribe().isAccessible() &&Schema.SObjectType.case.fields.Id.isAccessible() && Schema.SObjectType.case.fields.caseNumber.isAccessible())
+            {
+                qr =  [select id,caseNumber from case  where id=:recordId];
             }
-        }
          /*Case caseNumber1 = Database.query(qr);
          obj.dataId = (Database.query(qr)).Id;*/
          obj.dataId= qr[0].id;
          obj.Name = (string) qr[0].caseNumber;
          obj.recordObject = objectname;
          return obj;
-        }  
+        }
         else  if(objectname.contains('Contract'))
         { List<contract>  qr1 = new List<contract> ();
             if(contract.SObjectType.getDescribe().isAccessible() &&Schema.SObjectType.contract.fields.Id.isAccessible() && Schema.SObjectType.contract.fields.ContractNumber.isAccessible())
@@ -283,7 +283,7 @@ public with sharing class DisplayRecordTypeRecords {
         }
         else{
             
-            string qr2 =  ('select id,Name from '+objectname+' where id= \'' + recordId + '\'') ; 
+            string qr2 =  'select id,Name from '+String.escapeSingleQuotes(objectname)+' where id= \'' +String.escapeSingleQuotes(objectname) ; 
             
             sObject record = (sObject) Database.query(qr2);
             
